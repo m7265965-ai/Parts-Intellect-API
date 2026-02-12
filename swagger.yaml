@@ -1,718 +1,4482 @@
----
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: "This is a sample server Petstore server.  You can find out more about\
-    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
-    \  For this sample, you can use the api key `special-key` to test the authorization\
-    \ filters."
-  version: "1.0.5"
-  title: "Swagger Petstore"
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "apiteam@swagger.io"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "petstore.swagger.io"
-basePath: "/v2"
-tags:
-- name: "pet"
-  description: "Everything about your Pets"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
-- name: "store"
-  description: "Access to Petstore orders"
-- name: "user"
-  description: "Operations about user"
-  externalDocs:
-    description: "Find out more about our store"
-    url: "http://swagger.io"
-schemes:
-- "https"
-- "http"
+  title: Parts.Intellect API v1
+  description: API for communicating with Parts.Intellect Server.
+  version: "1"
+servers:
+- url: /
+security:
+- ApiKey: []
 paths:
-  /pet/{petId}/uploadImage:
-    post:
+  /api/v1/Dictionary/Account/{entryId}:
+    get:
       tags:
-      - "pet"
-      summary: "uploads an image"
-      description: ""
-      operationId: "uploadFile"
-      consumes:
-      - "multipart/form-data"
-      produces:
-      - "application/json"
+      - Account
       parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet to update"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "additionalMetadata"
-        in: "formData"
-        description: "Additional data to pass to server"
-        required: false
-        type: "string"
-      - name: "file"
-        in: "formData"
-        description: "file to upload"
-        required: false
-        type: "file"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/ApiResponse"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet:
-    post:
-      tags:
-      - "pet"
-      summary: "Add a new pet to the store"
-      description: ""
-      operationId: "addPet"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object that needs to be added to the store"
+      - name: entryId
+        in: path
         required: true
         schema:
-          $ref: "#/definitions/Pet"
+          type: integer
+          format: int32
       responses:
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/AccountGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/AccountGetResponseModel"
+  /api/v1/Dictionary/Account:
+    get:
+      tags:
+      - Account
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: IsAcquiringAccount
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: ContragentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: BankId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: CurrencyId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/AccountsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/AccountsGetResponseModel"
+  /api/v1/Dictionary/Acquiring/{entryId}:
+    get:
+      tags:
+      - Acquiring
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/AcquiringGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcquiringGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/AcquiringGetResponseModel"
+  /api/v1/Dictionary/Acquiring:
+    get:
+      tags:
+      - Acquiring
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: IsActive
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/AcquiringsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcquiringsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/AcquiringsGetResponseModel"
+  /api/v1/Journal/CardPayment/{journalId}:
+    get:
+      tags:
+      - CardPayment
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CardPaymentGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardPaymentGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CardPaymentGetResponseModel"
     put:
       tags:
-      - "pet"
-      summary: "Update an existing pet"
-      description: ""
-      operationId: "updatePet"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
+      - CardPayment
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object that needs to be added to the store"
+      - name: journalId
+        in: path
         required: true
         schema:
-          $ref: "#/definitions/Pet"
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CardPaymentCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/CardPaymentCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/CardPaymentCreateOrEditRequestModel"
       responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-        405:
-          description: "Validation exception"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet/findByStatus:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CardPaymentCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardPaymentCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CardPaymentCreateOrEditResponseModel"
+  /api/v1/Journal/CardPayment:
     get:
       tags:
-      - "pet"
-      summary: "Finds Pets by status"
-      description: "Multiple status values can be provided with comma separated strings"
-      operationId: "findPetsByStatus"
-      produces:
-      - "application/json"
-      - "application/xml"
+      - CardPayment
       parameters:
-      - name: "status"
-        in: "query"
-        description: "Status values that need to be considered for filter"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-          enum:
-          - "available"
-          - "pending"
-          - "sold"
-          default: "available"
-        collectionFormat: "multi"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid status value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet/findByTags:
-    get:
-      tags:
-      - "pet"
-      summary: "Finds Pets by tags"
-      description: "Multiple tags can be provided with comma separated strings. Use\
-        \ tag1, tag2, tag3 for testing."
-      operationId: "findPetsByTags"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "tags"
-        in: "query"
-        description: "Tags to filter by"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid tag value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-      deprecated: true
-  /pet/{petId}:
-    get:
-      tags:
-      - "pet"
-      summary: "Find pet by ID"
-      description: "Returns a single pet"
-      operationId: "getPetById"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet to return"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - api_key: []
-    post:
-      tags:
-      - "pet"
-      summary: "Updates a pet in the store with form data"
-      description: ""
-      operationId: "updatePetWithForm"
-      consumes:
-      - "application/x-www-form-urlencoded"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "name"
-        in: "formData"
-        description: "Updated name of the pet"
+      - name: ContragentId
+        in: query
         required: false
-        type: "string"
-      - name: "status"
-        in: "formData"
-        description: "Updated status of the pet"
+        schema:
+          type: integer
+          format: int32
+      - name: OurFirmId
+        in: query
         required: false
-        type: "string"
-      responses:
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-    delete:
-      tags:
-      - "pet"
-      summary: "Deletes a pet"
-      description: ""
-      operationId: "deletePet"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "api_key"
-        in: "header"
+        schema:
+          type: integer
+          format: int32
+      - name: StartDate
+        in: query
         required: false
-        type: "string"
-      - name: "petId"
-        in: "path"
-        description: "Pet id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: Sum
+        in: query
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /store/order:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CardPaymentsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardPaymentsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CardPaymentsGetResponseModel"
     post:
       tags:
-      - "store"
-      summary: "Place an order for a pet"
-      description: ""
-      operationId: "placeOrder"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "order placed for purchasing the pet"
-        required: true
-        schema:
-          $ref: "#/definitions/Order"
+      - CardPayment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CardPaymentCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/CardPaymentCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/CardPaymentCreateOrEditRequestModel"
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        400:
-          description: "Invalid Order"
-  /store/order/{orderId}:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CardPaymentCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardPaymentCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CardPaymentCreateOrEditResponseModel"
+  /api/v1/Journal/CardRefund/{journalId}:
     get:
       tags:
-      - "store"
-      summary: "Find purchase order by ID"
-      description: "For valid response try integer IDs with value >= 1 and <= 10.\
-        \ Other values will generated exceptions"
-      operationId: "getOrderById"
-      produces:
-      - "application/json"
-      - "application/xml"
+      - CardRefund
       parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of pet that needs to be fetched"
-        required: true
-        type: "integer"
-        maximum: 10
-        minimum: 1
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Order not found"
-    delete:
-      tags:
-      - "store"
-      summary: "Delete purchase order by ID"
-      description: "For valid response try integer IDs with positive integer value.\
-        \ Negative or non-integer values will generate API errors"
-      operationId: "deleteOrder"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of the order that needs to be deleted"
-        required: true
-        type: "integer"
-        minimum: 1
-        format: "int64"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Order not found"
-  /store/inventory:
-    get:
-      tags:
-      - "store"
-      summary: "Returns pet inventories by status"
-      description: "Returns a map of status codes to quantities"
-      operationId: "getInventory"
-      produces:
-      - "application/json"
-      parameters: []
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "object"
-            additionalProperties:
-              type: "integer"
-              format: "int32"
-      security:
-      - api_key: []
-  /user/createWithArray:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithArrayInput"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
+      - name: journalId
+        in: path
         required: true
         schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
+          type: integer
+          format: int32
       responses:
-        default:
-          description: "successful operation"
-  /user/createWithList:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithListInput"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/{username}:
-    get:
-      tags:
-      - "user"
-      summary: "Get user by user name"
-      description: ""
-      operationId: "getUserByName"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CardRefundGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardRefundGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CardRefundGetResponseModel"
     put:
       tags:
-      - "user"
-      summary: "Updated user"
-      description: "This can only be done by the logged in user."
-      operationId: "updateUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
+      - CardRefund
       parameters:
-      - name: "username"
-        in: "path"
-        description: "name that need to be updated"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Updated user object"
+      - name: journalId
+        in: path
         required: true
         schema:
-          $ref: "#/definitions/User"
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CardRefundCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/CardRefundCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/CardRefundCreateOrEditRequestModel"
       responses:
-        400:
-          description: "Invalid user supplied"
-        404:
-          description: "User not found"
-    delete:
-      tags:
-      - "user"
-      summary: "Delete user"
-      description: "This can only be done by the logged in user."
-      operationId: "deleteUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be deleted"
-        required: true
-        type: "string"
-      responses:
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-  /user/login:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CardRefundCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardRefundCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CardRefundCreateOrEditResponseModel"
+  /api/v1/Journal/CardRefund:
     get:
       tags:
-      - "user"
-      summary: "Logs user into the system"
-      description: ""
-      operationId: "loginUser"
-      produces:
-      - "application/json"
-      - "application/xml"
+      - CardRefund
       parameters:
-      - name: "username"
-        in: "query"
-        description: "The user name for login"
-        required: true
-        type: "string"
-      - name: "password"
-        in: "query"
-        description: "The password for login in clear text"
-        required: true
-        type: "string"
+      - name: ContragentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: OurFirmId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: Sum
+        in: query
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       responses:
-        200:
-          description: "successful operation"
-          headers:
-            X-Expires-After:
-              type: "string"
-              format: "date-time"
-              description: "date in UTC when token expires"
-            X-Rate-Limit:
-              type: "integer"
-              format: "int32"
-              description: "calls per hour allowed by the user"
-          schema:
-            type: "string"
-        400:
-          description: "Invalid username/password supplied"
-  /user/logout:
-    get:
-      tags:
-      - "user"
-      summary: "Logs out current logged in user session"
-      description: ""
-      operationId: "logoutUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters: []
-      responses:
-        default:
-          description: "successful operation"
-  /user:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CardRefundsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardRefundsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CardRefundsGetResponseModel"
     post:
       tags:
-      - "user"
-      summary: "Create user"
-      description: "This can only be done by the logged in user."
-      operationId: "createUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
+      - CardRefund
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CardRefundCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/CardRefundCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/CardRefundCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CardRefundCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardRefundCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CardRefundCreateOrEditResponseModel"
+  /api/v1/Journal/CashDisbursementVoucher/{journalId}:
+    get:
+      tags:
+      - CashDisbursementVoucher
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Created user object"
+      - name: journalId
+        in: path
         required: true
         schema:
-          $ref: "#/definitions/User"
+          type: integer
+          format: int32
       responses:
-        default:
-          description: "successful operation"
-securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "https://petstore.swagger.io/oauth/authorize"
-    flow: "implicit"
-    scopes:
-      read:pets: "read your pets"
-      write:pets: "modify pets in your account"
-definitions:
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Category"
-  Pet:
-    type: "object"
-    required:
-    - "name"
-    - "photoUrls"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      category:
-        $ref: "#/definitions/Category"
-      name:
-        type: "string"
-        example: "doggie"
-      photoUrls:
-        type: "array"
-        xml:
-          wrapped: true
-        items:
-          type: "string"
-          xml:
-            name: "photoUrl"
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherGetResponseModel"
+    put:
       tags:
-        type: "array"
-        xml:
-          wrapped: true
-        items:
-          xml:
-            name: "tag"
-          $ref: "#/definitions/Tag"
-      status:
-        type: "string"
-        description: "pet status in the store"
-        enum:
-        - "available"
-        - "pending"
-        - "sold"
-    xml:
-      name: "Pet"
-  Tag:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Tag"
-  Order:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      petId:
-        type: "integer"
-        format: "int64"
-      quantity:
-        type: "integer"
-        format: "int32"
-      shipDate:
-        type: "string"
-        format: "date-time"
-      status:
-        type: "string"
-        description: "Order Status"
-        enum:
-        - "placed"
-        - "approved"
-        - "delivered"
-      complete:
-        type: "boolean"
-    xml:
-      name: "Order"
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      username:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      phone:
-        type: "string"
-      userStatus:
-        type: "integer"
-        format: "int32"
-        description: "User Status"
-    xml:
-      name: "User"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+      - CashDisbursementVoucher
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditResponseModel"
+  /api/v1/Journal/CashDisbursementVoucher:
+    get:
+      tags:
+      - CashDisbursementVoucher
+      parameters:
+      - name: ContragentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: OurFirmId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: Sum
+        in: query
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVouchersGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVouchersGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVouchersGetResponseModel"
+    post:
+      tags:
+      - CashDisbursementVoucher
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CashDisbursementVoucherCreateOrEditResponseModel"
+  /api/v1/Journal/CashReceiptVoucher/{journalId}:
+    get:
+      tags:
+      - CashReceiptVoucher
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherGetResponseModel"
+    put:
+      tags:
+      - CashReceiptVoucher
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditResponseModel"
+  /api/v1/Journal/CashReceiptVoucher:
+    get:
+      tags:
+      - CashReceiptVoucher
+      parameters:
+      - name: ContragentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: OurFirmId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: Sum
+        in: query
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVouchersGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVouchersGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVouchersGetResponseModel"
+    post:
+      tags:
+      - CashReceiptVoucher
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CashReceiptVoucherCreateOrEditResponseModel"
+  /api/v1/Dictionary/ClientCategory/{entryId}:
+    get:
+      tags:
+      - ClientCategory
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ClientCategoryGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientCategoryGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/ClientCategoryGetResponseModel"
+  /api/v1/Dictionary/ClientCategory:
+    get:
+      tags:
+      - ClientCategory
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ClientCategoriesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientCategoriesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/ClientCategoriesGetResponseModel"
+  /api/v1/Dictionary/Contragent/{entryId}:
+    get:
+      tags:
+      - Contragent
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ContragentGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContragentGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/ContragentGetResponseModel"
+    put:
+      tags:
+      - Contragent
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContragentCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/ContragentCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/ContragentCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ContragentCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContragentCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/ContragentCreateOrEditResponseModel"
+  /api/v1/Dictionary/Contragent:
+    get:
+      tags:
+      - Contragent
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Kind
+        in: query
+        required: false
+        schema:
+          $ref: "#/components/schemas/ContragentKind"
+      - name: Type
+        in: query
+        required: false
+        schema:
+          $ref: "#/components/schemas/ContragentType"
+      - name: DefaultWarehouseId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: ClientCategoryId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ContragentsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContragentsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/ContragentsGetResponseModel"
+    post:
+      tags:
+      - Contragent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContragentCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/ContragentCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/ContragentCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ContragentCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContragentCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/ContragentCreateOrEditResponseModel"
+  /api/v1/Dictionary/Country/{entryId}:
+    get:
+      tags:
+      - Country
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CountryGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountryGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CountryGetResponseModel"
+  /api/v1/Dictionary/Country:
+    get:
+      tags:
+      - Country
+      parameters:
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CountriesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountriesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CountriesGetResponseModel"
+  /api/v1/Dictionary/Currency/{entryId}:
+    get:
+      tags:
+      - Currency
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CurrencyGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrencyGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CurrencyGetResponseModel"
+  /api/v1/Dictionary/Currency:
+    get:
+      tags:
+      - Currency
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: IsoCode
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: IsoName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/CurrenciesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrenciesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/CurrenciesGetResponseModel"
+  /api/v1/Dictionary/DealSource/{entryId}:
+    get:
+      tags:
+      - DealSource
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/DealSourceGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DealSourceGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/DealSourceGetResponseModel"
+  /api/v1/Dictionary/DealSource:
+    get:
+      tags:
+      - DealSource
+      parameters:
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/DealSourcesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DealSourcesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/DealSourcesGetResponseModel"
+  /api/v1/Dictionary/Delivery/{entryId}:
+    get:
+      tags:
+      - Delivery
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/DeliveryGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryGetResponseModel"
+  /api/v1/Dictionary/Delivery:
+    get:
+      tags:
+      - Delivery
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/DeliveriesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveriesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/DeliveriesGetResponseModel"
+  /api/v1/Dictionary/Expense/{entryId}:
+    get:
+      tags:
+      - Expense
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ExpenseGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExpenseGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/ExpenseGetResponseModel"
+  /api/v1/Dictionary/Expense:
+    get:
+      tags:
+      - Expense
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ExpensesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExpensesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/ExpensesGetResponseModel"
+  /api/v1/Journal/InvoiceCharge/{journalId}:
+    get:
+      tags:
+      - InvoiceCharge
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeGetResponseModel"
+    put:
+      tags:
+      - InvoiceCharge
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeCreateOrEditResponseModel"
+  /api/v1/Journal/InvoiceCharge:
+    get:
+      tags:
+      - InvoiceCharge
+      parameters:
+      - name: ContragentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: OurFirmId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Number
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargesGetResponseModel"
+    post:
+      tags:
+      - InvoiceCharge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeCreateOrEditResponseModel"
+  /api/v1/Journal/InvoiceCharge/{journalId}/item/{itemId}:
+    get:
+      tags:
+      - InvoiceCharge
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemGetResponseModel"
+    put:
+      tags:
+      - InvoiceCharge
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditResponseModel"
+  /api/v1/Journal/InvoiceCharge/{journalId}/item:
+    get:
+      tags:
+      - InvoiceCharge
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Code
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Producer
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemsGetResponseModel"
+    post:
+      tags:
+      - InvoiceCharge
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceChargeItemCreateOrEditResponseModel"
+  /api/v1/Journal/InvoiceIncome/{journalId}:
+    get:
+      tags:
+      - InvoiceIncome
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeGetResponseModel"
+    put:
+      tags:
+      - InvoiceIncome
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeCreateOrEditResponseModel"
+  /api/v1/Journal/InvoiceIncome:
+    get:
+      tags:
+      - InvoiceIncome
+      parameters:
+      - name: ContragentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: OurFirmId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: WarehouseId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Number
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomesGetResponseModel"
+    post:
+      tags:
+      - InvoiceIncome
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeCreateOrEditResponseModel"
+  /api/v1/Journal/InvoiceIncome/{journalId}/item/{itemId}:
+    get:
+      tags:
+      - InvoiceIncome
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemGetResponseModel"
+    put:
+      tags:
+      - InvoiceIncome
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditResponseModel"
+  /api/v1/Journal/InvoiceIncome/{journalId}/item:
+    get:
+      tags:
+      - InvoiceIncome
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Code
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Producer
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemsGetResponseModel"
+    post:
+      tags:
+      - InvoiceIncome
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceIncomeItemCreateOrEditResponseModel"
+  /api/v1/Journal/OrderClient/{journalId}:
+    get:
+      tags:
+      - OrderClient
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OrderClientGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientGetResponseModel"
+    put:
+      tags:
+      - OrderClient
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderClientCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/OrderClientCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/OrderClientCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OrderClientCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientCreateOrEditResponseModel"
+  /api/v1/Journal/OrderClient:
+    get:
+      tags:
+      - OrderClient
+      parameters:
+      - name: ContragentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: OurFirmId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: WarehouseId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OrderClientsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientsGetResponseModel"
+    post:
+      tags:
+      - OrderClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderClientCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/OrderClientCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/OrderClientCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OrderClientCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientCreateOrEditResponseModel"
+  /api/v1/Journal/OrderClient/{journalId}/item/{itemId}:
+    get:
+      tags:
+      - OrderClient
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemGetResponseModel"
+    put:
+      tags:
+      - OrderClient
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderClientItemCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/OrderClientItemCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/OrderClientItemCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemCreateOrEditResponseModel"
+  /api/v1/Journal/OrderClient/{journalId}/item:
+    get:
+      tags:
+      - OrderClient
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Code
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Producer
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Direction
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemsGetResponseModel"
+    post:
+      tags:
+      - OrderClient
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderClientItemCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/OrderClientItemCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/OrderClientItemCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OrderClientItemCreateOrEditResponseModel"
+  /api/v1/Dictionary/Ownership/{entryId}:
+    get:
+      tags:
+      - Ownership
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OwnershipGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OwnershipGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OwnershipGetResponseModel"
+  /api/v1/Dictionary/Ownership:
+    get:
+      tags:
+      - Ownership
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/OwnershipsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OwnershipsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/OwnershipsGetResponseModel"
+  /api/v1/Pricelist/PresencePricelist/{pricelistId}:
+    get:
+      tags:
+      - PresencePricelist
+      parameters:
+      - name: pricelistId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/PresencePricelistGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresencePricelistGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/PresencePricelistGetResponseModel"
+  /api/v1/Pricelist/PresencePricelist:
+    get:
+      tags:
+      - PresencePricelist
+      parameters:
+      - name: StartDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/PresencePricelistsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresencePricelistsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/PresencePricelistsGetResponseModel"
+  /api/v1/Pricelist/PresencePricelist/{pricelistId}/price/{priceId}:
+    get:
+      tags:
+      - PresencePricelist
+      parameters:
+      - name: pricelistId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: priceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/PresencePriceGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresencePriceGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/PresencePriceGetResponseModel"
+  /api/v1/Pricelist/PresencePricelist/price/{priceId}:
+    get:
+      tags:
+      - PresencePricelist
+      parameters:
+      - name: priceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/PresencePriceGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresencePriceGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/PresencePriceGetResponseModel"
+  /api/v1/Pricelist/PresencePricelist/{pricelistId}/price:
+    get:
+      tags:
+      - PresencePricelist
+      parameters:
+      - name: pricelistId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/PresencePricesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresencePricesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/PresencePricesGetResponseModel"
+  /api/v1/Pricelist/PresencePricelist/price:
+    get:
+      tags:
+      - PresencePricelist
+      parameters:
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/PresencePricesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresencePricesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/PresencePricesGetResponseModel"
+  /api/v1/Dictionary/User/{entryId}:
+    get:
+      tags:
+      - User
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/UserGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/UserGetResponseModel"
+  /api/v1/Dictionary/User:
+    get:
+      tags:
+      - User
+      parameters:
+      - name: Role
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: WorkerGroup
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/UsersGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/UsersGetResponseModel"
+  /api/v1/Journal/VinQuery/{journalId}:
+    get:
+      tags:
+      - VinQuery
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/VinQueryGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryGetResponseModel"
+    put:
+      tags:
+      - VinQuery
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VinQueryCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/VinQueryCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/VinQueryCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/VinQueryCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryCreateOrEditResponseModel"
+  /api/v1/Journal/VinQuery:
+    get:
+      tags:
+      - VinQuery
+      parameters:
+      - name: ContragentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: OurFirmId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: StartDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: EndDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: ContragentName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/VinQueriesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VinQueriesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/VinQueriesGetResponseModel"
+    post:
+      tags:
+      - VinQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VinQueryCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/VinQueryCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/VinQueryCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/VinQueryCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryCreateOrEditResponseModel"
+  /api/v1/Journal/VinQuery/{journalId}/item/{itemId}:
+    get:
+      tags:
+      - VinQuery
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemGetResponseModel"
+    put:
+      tags:
+      - VinQuery
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VinQueryItemCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/VinQueryItemCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/VinQueryItemCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemCreateOrEditResponseModel"
+  /api/v1/Journal/VinQuery/{journalId}/item:
+    get:
+      tags:
+      - VinQuery
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemsGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemsGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemsGetResponseModel"
+    post:
+      tags:
+      - VinQuery
+      parameters:
+      - name: journalId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VinQueryItemCreateOrEditRequestModel"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/VinQueryItemCreateOrEditRequestModel"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/VinQueryItemCreateOrEditRequestModel"
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemCreateOrEditResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemCreateOrEditResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/VinQueryItemCreateOrEditResponseModel"
+  /api/v1/Dictionary/Warehouse/{entryId}:
+    get:
+      tags:
+      - Warehouse
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/WarehouseGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WarehouseGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/WarehouseGetResponseModel"
+  /api/v1/Dictionary/Warehouse:
+    get:
+      tags:
+      - Warehouse
+      parameters:
+      - name: Name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Place
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: StartRowId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Amount
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/WarehousesGetResponseModel"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WarehousesGetResponseModel"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/WarehousesGetResponseModel"
+components:
+  schemas:
+    AccountGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        isAcquiringAccount:
+          type: boolean
+        comment:
+          type: string
+          nullable: true
+        contragentId:
+          type: integer
+          format: int32
+          nullable: true
+        bankId:
+          type: integer
+          format: int32
+          nullable: true
+        currencyId:
+          type: integer
+          format: int32
+      additionalProperties: false
+    AccountsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/AccountGetResponseModel"
+      additionalProperties: false
+    AcquiringGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        isActive:
+          type: boolean
+      additionalProperties: false
+    AcquiringsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/AcquiringGetResponseModel"
+      additionalProperties: false
+    CardPaymentCreateOrEditRequestModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        sum:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        expenseId:
+          type: integer
+          format: int32
+          nullable: true
+        isBalance:
+          type: boolean
+        acquiringId:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CardPaymentCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CardPaymentGetResponseModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        sum:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        expenseId:
+          type: integer
+          format: int32
+          nullable: true
+        isBalance:
+          type: boolean
+        acquiringId:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CardPaymentsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CardPaymentGetResponseModel"
+      additionalProperties: false
+    CardRefundCreateOrEditRequestModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        sum:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        expenseId:
+          type: integer
+          format: int32
+          nullable: true
+        isBalance:
+          type: boolean
+        acquiringId:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CardRefundCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CardRefundGetResponseModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        sum:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        expenseId:
+          type: integer
+          format: int32
+          nullable: true
+        isBalance:
+          type: boolean
+        acquiringId:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CardRefundsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CardRefundGetResponseModel"
+      additionalProperties: false
+    CashDisbursementVoucherCreateOrEditRequestModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        sum:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        expenseId:
+          type: integer
+          format: int32
+          nullable: true
+        isBalance:
+          type: boolean
+        payerAccountId:
+          type: integer
+          format: int32
+        payeeAccountId:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    CashDisbursementVoucherCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CashDisbursementVoucherGetResponseModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        sum:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        expenseId:
+          type: integer
+          format: int32
+          nullable: true
+        isBalance:
+          type: boolean
+        payerAccountId:
+          type: integer
+          format: int32
+        payeeAccountId:
+          type: integer
+          format: int32
+          nullable: true
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CashDisbursementVouchersGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CashDisbursementVoucherGetResponseModel"
+      additionalProperties: false
+    CashReceiptVoucherCreateOrEditRequestModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        sum:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        expenseId:
+          type: integer
+          format: int32
+          nullable: true
+        isBalance:
+          type: boolean
+        payerAccountId:
+          type: integer
+          format: int32
+          nullable: true
+        payeeAccountId:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CashReceiptVoucherCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CashReceiptVoucherGetResponseModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        sum:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        expenseId:
+          type: integer
+          format: int32
+          nullable: true
+        isBalance:
+          type: boolean
+        payerAccountId:
+          type: integer
+          format: int32
+          nullable: true
+        payeeAccountId:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CashReceiptVouchersGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CashReceiptVoucherGetResponseModel"
+      additionalProperties: false
+    ClientCategoriesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/ClientCategoryGetResponseModel"
+      additionalProperties: false
+    ClientCategoryGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ContragentCreateOrEditRequestModel:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        kind:
+          $ref: "#/components/schemas/ContragentKind"
+        type:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/ContragentType"
+        correspondAccount:
+          type: string
+          nullable: true
+        bik:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        mobilePhone:
+          type: string
+          nullable: true
+        contactPerson:
+          type: string
+          nullable: true
+        inn:
+          type: string
+          nullable: true
+        deliveryAddress:
+          type: string
+          nullable: true
+        currencyId:
+          type: integer
+          format: int32
+        managerId:
+          type: integer
+          format: int32
+        ownershipId:
+          type: integer
+          format: int32
+          nullable: true
+        defaultWarehouseId:
+          type: integer
+          format: int32
+          nullable: true
+        clientCategoryId:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    ContragentCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ContragentGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        kind:
+          $ref: "#/components/schemas/ContragentKind"
+        type:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/ContragentType"
+        correspondAccount:
+          type: string
+          nullable: true
+        bik:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        mobilePhone:
+          type: string
+          nullable: true
+        contactPerson:
+          type: string
+          nullable: true
+        inn:
+          type: string
+          nullable: true
+        deliveryAddress:
+          type: string
+          nullable: true
+        currencyId:
+          type: integer
+          format: int32
+        managerId:
+          type: integer
+          format: int32
+          nullable: true
+        ownershipId:
+          type: integer
+          format: int32
+          nullable: true
+        defaultWarehouseId:
+          type: integer
+          format: int32
+          nullable: true
+        clientCategoryId:
+          type: integer
+          format: int32
+          nullable: true
+        balanceOrdered:
+          type: number
+          format: double
+      additionalProperties: false
+    ContragentKind:
+      type: integer
+      format: int32
+      enum:
+      - 0
+      - 1
+      - 2
+    ContragentType:
+      type: integer
+      format: int32
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    ContragentsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/ContragentGetResponseModel"
+      additionalProperties: false
+    CountriesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CountryGetResponseModel"
+      additionalProperties: false
+    CountryGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: true
+      additionalProperties: false
+    CurrenciesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CurrencyGetResponseModel"
+      additionalProperties: false
+    CurrencyGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        isoCode:
+          type: string
+          nullable: true
+        isoName:
+          type: string
+          nullable: true
+      additionalProperties: false
+    DealSourceGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    DealSourcesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/DealSourceGetResponseModel"
+      additionalProperties: false
+    DeliveriesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/DeliveryGetResponseModel"
+      additionalProperties: false
+    DeliveryGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ExpenseGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ExpensesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/ExpenseGetResponseModel"
+      additionalProperties: false
+    InvoiceChargeCreateOrEditRequestModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        discount:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        invoiceNumber:
+          type: string
+          nullable: true
+        invoiceDate:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    InvoiceChargeCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    InvoiceChargeGetResponseModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        discount:
+          type: number
+          format: double
+        externalNumber:
+          type: string
+          nullable: true
+        invoiceNumber:
+          type: string
+          nullable: true
+        invoiceDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    InvoiceChargeItemCreateOrEditRequestModel:
+      type: object
+      properties:
+        code:
+          type: string
+          nullable: true
+        producer:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        amount:
+          type: number
+          format: double
+        priceProvider:
+          type: number
+          format: double
+        countryId:
+          type: integer
+          format: int32
+          nullable: true
+        gtd:
+          type: string
+          nullable: true
+      additionalProperties: false
+    InvoiceChargeItemCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    InvoiceChargeItemGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        code:
+          type: string
+          nullable: true
+        producer:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        amount:
+          type: number
+          format: double
+        priceProvider:
+          type: number
+          format: double
+        countryId:
+          type: integer
+          format: int32
+          nullable: true
+        gtd:
+          type: string
+          nullable: true
+      additionalProperties: false
+    InvoiceChargeItemsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/InvoiceChargeItemGetResponseModel"
+      additionalProperties: false
+    InvoiceChargesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/InvoiceChargeGetResponseModel"
+      additionalProperties: false
+    InvoiceIncomeCreateOrEditRequestModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        warehouseId:
+          type: integer
+          format: int32
+        pricelistId:
+          type: integer
+          format: int32
+          nullable: true
+        externalNumber:
+          type: string
+          nullable: true
+        invoiceNumber:
+          type: string
+          nullable: true
+        invoiceDate:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    InvoiceIncomeCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    InvoiceIncomeGetResponseModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        warehouseId:
+          type: integer
+          format: int32
+        pricelistId:
+          type: integer
+          format: int32
+          nullable: true
+        externalNumber:
+          type: string
+          nullable: true
+        invoiceNumber:
+          type: string
+          nullable: true
+        invoiceDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    InvoiceIncomeItemCreateOrEditRequestModel:
+      type: object
+      properties:
+        code:
+          type: string
+          nullable: true
+        producer:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        amount:
+          type: number
+          format: double
+        priceProvider:
+          type: number
+          format: double
+        countryId:
+          type: integer
+          format: int32
+          nullable: true
+        gtd:
+          type: string
+          nullable: true
+      additionalProperties: false
+    InvoiceIncomeItemCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    InvoiceIncomeItemGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        code:
+          type: string
+          nullable: true
+        producer:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        amount:
+          type: number
+          format: double
+        priceProvider:
+          type: number
+          format: double
+        countryId:
+          type: integer
+          format: int32
+          nullable: true
+        gtd:
+          type: string
+          nullable: true
+      additionalProperties: false
+    InvoiceIncomeItemsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/InvoiceIncomeItemGetResponseModel"
+      additionalProperties: false
+    InvoiceIncomesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/InvoiceIncomeGetResponseModel"
+      additionalProperties: false
+    OrderClientCreateOrEditRequestModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        warehouseId:
+          type: integer
+          format: int32
+        externalNumber:
+          type: string
+          nullable: true
+        deliveryId:
+          type: integer
+          format: int32
+          nullable: true
+        deliveryAddress:
+          type: string
+          nullable: true
+        deliveryComment:
+          type: string
+          nullable: true
+        journalDealSourceId:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    OrderClientCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    OrderClientGetResponseModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        warehouseId:
+          type: integer
+          format: int32
+        externalNumber:
+          type: string
+          nullable: true
+        deliveryId:
+          type: integer
+          format: int32
+          nullable: true
+        deliveryAddress:
+          type: string
+          nullable: true
+        deliveryComment:
+          type: string
+          nullable: true
+        journalDealSourceId:
+          type: integer
+          format: int32
+          nullable: true
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    OrderClientItemCreateOrEditRequestModel:
+      type: object
+      properties:
+        code:
+          type: string
+          nullable: true
+        producer:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        amount:
+          type: number
+          format: double
+        direction:
+          type: string
+          nullable: true
+      additionalProperties: false
+    OrderClientItemCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    OrderClientItemGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        code:
+          type: string
+          nullable: true
+        producer:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        nds:
+          type: number
+          format: double
+        amount:
+          type: number
+          format: double
+        direction:
+          type: string
+          nullable: true
+      additionalProperties: false
+    OrderClientItemsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/OrderClientItemGetResponseModel"
+      additionalProperties: false
+    OrderClientsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/OrderClientGetResponseModel"
+      additionalProperties: false
+    OwnershipGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    OwnershipsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/OwnershipGetResponseModel"
+      additionalProperties: false
+    PresencePriceGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        code:
+          type: string
+          nullable: true
+        producer:
+          type: string
+          nullable: true
+        wareCaption:
+          type: string
+          nullable: true
+        presencePrice:
+          type: number
+          format: double
+        salesPrice:
+          type: number
+          format: double
+        multiplicity:
+          type: number
+          format: double
+        absoluteRest:
+          type: number
+          format: double
+        actualizeDate:
+          type: string
+          format: date-time
+      additionalProperties: false
+    PresencePricelistGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        date:
+          type: string
+          format: date-time
+        currencyId:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PresencePricelistsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/PresencePricelistGetResponseModel"
+      additionalProperties: false
+    PresencePricesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/PresencePriceGetResponseModel"
+      additionalProperties: false
+    SteeringWheelPosition:
+      type: integer
+      format: int32
+      enum:
+      - 0
+      - 1
+      - 2
+    UserGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        login:
+          type: string
+          nullable: true
+        role:
+          type: string
+          nullable: true
+        workerGroup:
+          type: string
+          nullable: true
+      additionalProperties: false
+    UsersGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/UserGetResponseModel"
+      additionalProperties: false
+    VinQueriesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/VinQueryGetResponseModel"
+      additionalProperties: false
+    VinQueryCreateOrEditRequestModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+          nullable: true
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        contragentName:
+          type: string
+          nullable: true
+        mobilePhone:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        vin:
+          type: string
+          nullable: true
+        brand:
+          type: string
+          nullable: true
+        model:
+          type: string
+          nullable: true
+        yearProduced:
+          type: integer
+          format: int32
+          nullable: true
+        steeringWheel:
+          $ref: "#/components/schemas/SteeringWheelPosition"
+        carBody:
+          type: string
+          nullable: true
+        wheelDrive:
+          type: string
+          nullable: true
+        transmission:
+          type: string
+          nullable: true
+        engineType:
+          type: string
+          nullable: true
+        engineVolume:
+          type: integer
+          format: int32
+          nullable: true
+        enginePower:
+          type: integer
+          format: int32
+          nullable: true
+        carNotes:
+          type: string
+          nullable: true
+        journalDealSourceId:
+          type: integer
+          format: int32
+          nullable: true
+        planPerformDate:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    VinQueryCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    VinQueryGetResponseModel:
+      type: object
+      properties:
+        contragentId:
+          type: integer
+          format: int32
+          nullable: true
+        ourFirmId:
+          type: integer
+          format: int32
+        currencyId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date-time
+        number:
+          type: string
+          nullable: true
+        useNds:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+        contragentName:
+          type: string
+          nullable: true
+        mobilePhone:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        vin:
+          type: string
+          nullable: true
+        brand:
+          type: string
+          nullable: true
+        model:
+          type: string
+          nullable: true
+        yearProduced:
+          type: integer
+          format: int32
+          nullable: true
+        steeringWheel:
+          $ref: "#/components/schemas/SteeringWheelPosition"
+        carBody:
+          type: string
+          nullable: true
+        wheelDrive:
+          type: string
+          nullable: true
+        transmission:
+          type: string
+          nullable: true
+        engineType:
+          type: string
+          nullable: true
+        engineVolume:
+          type: integer
+          format: int32
+          nullable: true
+        enginePower:
+          type: integer
+          format: int32
+          nullable: true
+        carNotes:
+          type: string
+          nullable: true
+        journalDealSourceId:
+          type: integer
+          format: int32
+          nullable: true
+        planPerformDate:
+          type: string
+          format: date-time
+          nullable: true
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    VinQueryItemCreateOrEditRequestModel:
+      type: object
+      properties:
+        clientCode:
+          type: string
+          nullable: true
+        clientProducer:
+          type: string
+          nullable: true
+        caption:
+          type: string
+          nullable: true
+        amount:
+          type: number
+          format: double
+      additionalProperties: false
+    VinQueryItemCreateOrEditResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    VinQueryItemGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        clientCode:
+          type: string
+          nullable: true
+        clientProducer:
+          type: string
+          nullable: true
+        caption:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        amount:
+          type: number
+          format: double
+        wareOriginalCode:
+          type: string
+          nullable: true
+        wareProducer:
+          type: string
+          nullable: true
+        wareCaption:
+          type: string
+          nullable: true
+        planDeliveryDate:
+          type: string
+          format: date-time
+      additionalProperties: false
+    VinQueryItemsGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/VinQueryItemGetResponseModel"
+      additionalProperties: false
+    WarehouseGetResponseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        place:
+          type: string
+          nullable: true
+        path:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+      additionalProperties: false
+    WarehousesGetResponseModel:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/WarehouseGetResponseModel"
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: X-API-KEY
+      in: header
